@@ -1,9 +1,7 @@
 package com.hasnain.orderprocessingplatform.controller;
 
 import com.hasnain.orderprocessingplatform.entity.Order;
-import com.hasnain.orderprocessingplatform.entity.User;
 import com.hasnain.orderprocessingplatform.service.OrderService;
-import com.hasnain.orderprocessingplatform.service.UserService;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -22,11 +20,9 @@ import java.util.Map;
 public class OrderController {
     
     private final OrderService orderService;
-    private final UserService userService;
 
-    public OrderController(OrderService orderService, UserService userService) {
+    public OrderController(OrderService orderService) {
         this.orderService = orderService;
-        this.userService = userService;
     }
 
     @GetMapping("/{id}")
@@ -36,8 +32,7 @@ public class OrderController {
 
     @PostMapping
     public Order createOrder(@RequestBody CreateOrderRequest request) {
-        User user = userService.getUserById(request.getUserId());
-        return orderService.createOrder(user, request.getItems());
+        return orderService.createOrder(request.getUserId(), request.getItems());
     }
 
     @Getter 

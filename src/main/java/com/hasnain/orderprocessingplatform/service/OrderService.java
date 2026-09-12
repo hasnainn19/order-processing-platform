@@ -6,6 +6,8 @@ import com.hasnain.orderprocessingplatform.entity.User;
 import com.hasnain.orderprocessingplatform.entity.OrderItem;
 import com.hasnain.orderprocessingplatform.repository.OrderRepository;
 import com.hasnain.orderprocessingplatform.repository.ProductRepository;
+import com.hasnain.orderprocessingplatform.repository.UserRepository;
+
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -17,14 +19,19 @@ public class OrderService {
     
     private final OrderRepository orderRepository;
     private final ProductRepository productRepository;
+    private final UserRepository userRepository;
 
-    public OrderService(OrderRepository orderRepository, ProductRepository productRepository) {
+    public OrderService(OrderRepository orderRepository, ProductRepository productRepository, UserRepository userRepository) {
         this.orderRepository = orderRepository;
         this.productRepository = productRepository;
+        this.userRepository = userRepository;
     }
 
     @Transactional 
-    public Order createOrder(User user, Map<Long, Integer> productIdToQuantity) {
+    public Order createOrder(Long userId, Map<Long, Integer> productIdToQuantity) {
+        User user = userRepository.findById(userId)
+            .orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
+
         Order order = new Order();
         order.setUser(user);
 
