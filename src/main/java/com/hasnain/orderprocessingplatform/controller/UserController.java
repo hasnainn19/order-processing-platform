@@ -1,7 +1,11 @@
 package com.hasnain.orderprocessingplatform.controller;
 
-import com.hasnain.orderprocessingplatform.entity.User;
 import com.hasnain.orderprocessingplatform.service.UserService;
+
+import jakarta.validation.Valid;
+
+import com.hasnain.orderprocessingplatform.dto.UserResponse;
+import com.hasnain.orderprocessingplatform.dto.CreateUserRequest;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,12 +25,12 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public User getUserById(@PathVariable Long id) {
+    public UserResponse getUserById(@PathVariable Long id) {
         return userService.getUserById(id);
     }
 
     @PostMapping
-    public User createUser(@RequestBody User user) {
-        return userService.createUser(user);
+    public UserResponse createUser(@RequestBody @Valid CreateUserRequest request) {
+        return userService.createUser(request);
     }
 }
