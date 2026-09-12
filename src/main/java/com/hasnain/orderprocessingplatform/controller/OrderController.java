@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.security.core.Authentication;
 
 @RestController 
 @RequestMapping("/api/orders")
@@ -39,7 +40,7 @@ public class OrderController {
     }
 
     @PostMapping
-    public OrderResponse createOrder(@RequestBody @Valid CreateOrderRequest request) {
-        return orderService.createOrder(request);
+    public OrderResponse createOrder(Authentication authentication, @RequestBody @Valid CreateOrderRequest request) {
+        return orderService.createOrder(authentication.getName(), request);
     }
 }

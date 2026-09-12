@@ -40,9 +40,9 @@ public class OrderService {
     }
 
     @Transactional 
-    public OrderResponse createOrder(CreateOrderRequest request) {
-        User user = userRepository.findById(request.userId())
-            .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + request.userId()));
+    public OrderResponse createOrder(String userEmail, CreateOrderRequest request) {
+        User user = userRepository.findByEmail(userEmail)
+            .orElseThrow(() -> new ResourceNotFoundException("User not found with email: " + userEmail));
 
         Order order = new Order();
         order.setUser(user);
