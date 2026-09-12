@@ -4,11 +4,14 @@ import com.hasnain.orderprocessingplatform.entity.Product;
 import com.hasnain.orderprocessingplatform.repository.ProductRepository;
 import com.hasnain.orderprocessingplatform.dto.ProductResponse;
 import com.hasnain.orderprocessingplatform.dto.CreateProductRequest;
+import com.hasnain.orderprocessingplatform.dto.PagedResponse;
 import com.hasnain.orderprocessingplatform.exception.ResourceNotFoundException;
 
-import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
 
-import java.util.List;
+import org.springframework.stereotype.Service;
 
 @Service 
 public class ProductService {
@@ -19,11 +22,18 @@ public class ProductService {
         this.productRepository = productRepository;
     }
 
-    public List<ProductResponse> getAllProducts() {
-        return productRepository.findAll()
-            .stream()
-            .map(this::toResponse)
-            .toList();
+    public PagedResponse<ProductResponse> getAllProducts(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Product> productPage = productRepository.findAll(pageable);
+
+        return new PagedResponse<>(
+            productPage.getContent().stream().map(this::toResponse).toList(),
+            productPage.getNumber(),
+            productPage.getSize(),
+            productPage.getTotalElements(),
+            productPage.getTotalPages(),
+            productPage.isLast()
+        );
     }
 
     public ProductResponse getProductById(Long id) {

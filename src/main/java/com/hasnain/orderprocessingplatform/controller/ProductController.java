@@ -6,6 +6,7 @@ import jakarta.validation.Valid;
 
 import com.hasnain.orderprocessingplatform.dto.ProductResponse;
 import com.hasnain.orderprocessingplatform.dto.CreateProductRequest;
+import com.hasnain.orderprocessingplatform.dto.PagedResponse;
 
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,8 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController 
 @RequestMapping("/api/products")
@@ -27,8 +27,10 @@ public class ProductController {
     }
 
     @GetMapping
-    public List<ProductResponse> getAllProducts() {
-        return productService.getAllProducts();
+    public PagedResponse<ProductResponse> getAllProducts(
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "20") int size) {
+        return productService.getAllProducts(page, size);
     }
 
     @GetMapping("/{id}")
