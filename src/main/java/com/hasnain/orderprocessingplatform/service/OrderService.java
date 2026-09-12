@@ -11,6 +11,9 @@ import com.hasnain.orderprocessingplatform.repository.OrderRepository;
 import com.hasnain.orderprocessingplatform.repository.ProductRepository;
 import com.hasnain.orderprocessingplatform.repository.UserRepository;
 
+import com.hasnain.orderprocessingplatform.exception.ResourceNotFoundException;
+import com.hasnain.orderprocessingplatform.exception.InsufficientStockException;
+
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -34,7 +37,7 @@ public class OrderService {
     @Transactional 
     public OrderResponse createOrder(CreateOrderRequest request) {
         User user = userRepository.findById(request.userId())
-            .orElseThrow(() -> new RuntimeException("User not found with id: " + request.userId()));
+            .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + request.userId()));
 
         Order order = new Order();
         order.setUser(user);
@@ -46,10 +49,10 @@ public class OrderService {
             int quantity = entry.getValue();
 
             Product product = productRepository.findById(productId)
-                .orElseThrow(() -> new RuntimeException("Product not found: " + productId));
+                .orElseThrow(() -> new ResourceNotFoundException("Product not found: " + productId));
             
             if (product.getStockQuantity() < quantity) {
-                throw new RuntimeException("Insufficient stock for product: " + productId);
+                throw new InsufficientStockException("Insufficient stock for product: " + productId);
             }
 
             product.setStockQuantity(product.getStockQuantity() - quantity);
@@ -71,7 +74,7 @@ public class OrderService {
     @Transactional(readOnly = true)
     public OrderResponse getOrderById(Long id) {
         Order order = orderRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Order not found with id: " + id));
+            .orElseThrow(() -> new ResourceNotFoundException("Order not found with id: " + id));
 
         return toResponse(order);
     }

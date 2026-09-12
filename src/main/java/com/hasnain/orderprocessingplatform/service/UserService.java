@@ -5,6 +5,7 @@ import com.hasnain.orderprocessingplatform.entity.User;
 import com.hasnain.orderprocessingplatform.repository.UserRepository;
 import com.hasnain.orderprocessingplatform.dto.UserResponse;
 import com.hasnain.orderprocessingplatform.dto.CreateUserRequest;
+import com.hasnain.orderprocessingplatform.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service 
@@ -18,7 +19,7 @@ public class UserService {
 
     public UserResponse getUserById(Long id) {
         User user = userRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
+            .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + id));
 
         return toResponse(user);
     }

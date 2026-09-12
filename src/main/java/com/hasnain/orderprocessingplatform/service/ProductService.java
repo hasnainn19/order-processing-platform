@@ -4,6 +4,7 @@ import com.hasnain.orderprocessingplatform.entity.Product;
 import com.hasnain.orderprocessingplatform.repository.ProductRepository;
 import com.hasnain.orderprocessingplatform.dto.ProductResponse;
 import com.hasnain.orderprocessingplatform.dto.CreateProductRequest;
+import com.hasnain.orderprocessingplatform.exception.ResourceNotFoundException;
 
 import org.springframework.stereotype.Service;
 
@@ -27,7 +28,7 @@ public class ProductService {
 
     public ProductResponse getProductById(Long id) {
         Product product = productRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Product not found with id: " + id));
+            .orElseThrow(() -> new ResourceNotFoundException("Product not found with id: " + id));
         
         return toResponse(product);
     }
