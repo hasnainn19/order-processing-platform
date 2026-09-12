@@ -1,5 +1,8 @@
 package com.hasnain.orderprocessingplatform.service;
 
+import com.hasnain.orderprocessingplatform.dto.CreateOrderRequest;
+import com.hasnain.orderprocessingplatform.dto.OrderResponse;
+import com.hasnain.orderprocessingplatform.dto.OrderItemResponse;
 import com.hasnain.orderprocessingplatform.entity.Order;
 import com.hasnain.orderprocessingplatform.entity.Product;
 import com.hasnain.orderprocessingplatform.entity.User;
@@ -11,6 +14,7 @@ import com.hasnain.orderprocessingplatform.repository.UserRepository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.math.BigDecimal;
 import java.util.Map;
 
@@ -28,16 +32,16 @@ public class OrderService {
     }
 
     @Transactional 
-    public Order createOrder(Long userId, Map<Long, Integer> productIdToQuantity) {
-        User user = userRepository.findById(userId)
-            .orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
+    public OrderResponse createOrder(CreateOrderRequest request) {
+        User user = userRepository.findById(request.userId())
+            .orElseThrow(() -> new RuntimeException("User not found with id: " + request.userId()));
 
         Order order = new Order();
         order.setUser(user);
 
         BigDecimal total = BigDecimal.ZERO;
 
-        for (Map.Entry<Long, Integer> entry : productIdToQuantity.entrySet()) {
+        for (Map.Entry<Long, Integer> entry : request.items().entrySet()) {
             Long productId = entry.getKey();
             int quantity = entry.getValue();
 
@@ -60,11 +64,41 @@ public class OrderService {
             total = total.add(product.getPrice().multiply(BigDecimal.valueOf(quantity)));
         }
         order.setTotal(total);
-        return orderRepository.save(order);  
+        Order saved = orderRepository.save(order);
+        return toResponse(saved);
     }
 
-    public Order getOrderById(Long id) {
-        return orderRepository.findById(id)
+    @Transactional(readOnly = true)
+    public OrderResponse getOrderById(Long id) {
+        Order order = orderRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("Order not found with id: " + id));
+
+        return toResponse(order);
+    }
+
+    private OrderResponse toResponse(Order order) {
+        List<OrderItemResponse> items = order.getOrderItems()
+            .stream()
+            .map(this::toItemResponse)
+            .toList();
+
+        return new OrderResponse(
+            order.getId(),
+            order.getUser().getId(),
+            order.getUser().getEmail(),
+            order.getStatus(),
+            order.getTotal(),
+            order.getCreatedAt(),
+            items
+        );
+    }
+
+    private OrderItemResponse toItemResponse(OrderItem item) {
+        return new OrderItemResponse(
+            item.getProduct().getId(),
+            item.getProduct().getName(),
+            item.getQuantity(),
+            item.getPrice()
+        );
     }
 }
