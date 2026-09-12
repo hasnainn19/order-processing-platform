@@ -1,7 +1,11 @@
 package com.hasnain.orderprocessingplatform.controller;
 
-import com.hasnain.orderprocessingplatform.entity.Product;
 import com.hasnain.orderprocessingplatform.service.ProductService;
+
+import jakarta.validation.Valid;
+
+import com.hasnain.orderprocessingplatform.dto.ProductResponse;
+import com.hasnain.orderprocessingplatform.dto.CreateProductRequest;
 
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,17 +27,17 @@ public class ProductController {
     }
 
     @GetMapping
-    public List<Product> getAllProducts() {
+    public List<ProductResponse> getAllProducts() {
         return productService.getAllProducts();
     }
 
     @GetMapping("/{id}")
-    public Product getProductById(@PathVariable Long id) {
+    public ProductResponse getProductById(@PathVariable Long id) {
         return productService.getProductById(id);
     }
 
     @PostMapping
-    public Product createProduct(@RequestBody Product product) {
-        return productService.createProduct(product);
+    public ProductResponse createProduct(@RequestBody @Valid CreateProductRequest request) {
+        return productService.createProduct(request);
     } 
 }
