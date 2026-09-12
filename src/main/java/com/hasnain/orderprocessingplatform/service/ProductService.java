@@ -7,6 +7,8 @@ import com.hasnain.orderprocessingplatform.dto.CreateProductRequest;
 import com.hasnain.orderprocessingplatform.dto.PagedResponse;
 import com.hasnain.orderprocessingplatform.exception.ResourceNotFoundException;
 
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.PageRequest;
@@ -22,6 +24,7 @@ public class ProductService {
         this.productRepository = productRepository;
     }
 
+    @Cacheable(value = "products", key = "#page + '-' + #size")
     public PagedResponse<ProductResponse> getAllProducts(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         Page<Product> productPage = productRepository.findAll(pageable);
@@ -43,6 +46,7 @@ public class ProductService {
         return toResponse(product);
     }
 
+    @CacheEvict(value = "products", allEntries = true)
     public ProductResponse createProduct(CreateProductRequest request) {
         Product product = new Product();
         product.setName(request.name());
