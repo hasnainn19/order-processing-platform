@@ -2,6 +2,7 @@ package com.hasnain.orderprocessingplatform.service;
 
 import com.hasnain.orderprocessingplatform.dto.CreateOrderRequest;
 import com.hasnain.orderprocessingplatform.dto.OrderResponse;
+import com.hasnain.orderprocessingplatform.dto.PagedResponse;
 import com.hasnain.orderprocessingplatform.dto.OrderItemResponse;
 import com.hasnain.orderprocessingplatform.entity.Order;
 import com.hasnain.orderprocessingplatform.entity.Product;
@@ -13,6 +14,10 @@ import com.hasnain.orderprocessingplatform.repository.UserRepository;
 
 import com.hasnain.orderprocessingplatform.exception.ResourceNotFoundException;
 import com.hasnain.orderprocessingplatform.exception.InsufficientStockException;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
 
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
@@ -77,6 +82,21 @@ public class OrderService {
             .orElseThrow(() -> new ResourceNotFoundException("Order not found with id: " + id));
 
         return toResponse(order);
+    }
+
+    @Transactional(readOnly = true)
+    public PagedResponse<OrderResponse> getAllOrders(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Order> orderPage = orderRepository.findAll(pageable);
+
+        return new PagedResponse<>(
+            orderPage.getContent().stream().map(this::toResponse).toList(),
+            orderPage.getNumber(),
+            orderPage.getSize(),
+            orderPage.getTotalElements(),
+            orderPage.getTotalPages(),
+            orderPage.isLast()
+        );
     }
 
     private OrderResponse toResponse(Order order) {
