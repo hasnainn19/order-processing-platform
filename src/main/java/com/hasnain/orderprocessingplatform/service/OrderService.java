@@ -13,11 +13,15 @@ import com.hasnain.orderprocessingplatform.repository.ProductRepository;
 import com.hasnain.orderprocessingplatform.repository.UserRepository;
 
 import com.hasnain.orderprocessingplatform.exception.ResourceNotFoundException;
+import com.hasnain.orderprocessingplatform.messaging.OrderCreatedEvent;
+import com.hasnain.orderprocessingplatform.messaging.RabbitMQConfig;
 import com.hasnain.orderprocessingplatform.exception.InsufficientStockException;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.PageRequest;
+
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
@@ -32,11 +36,13 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final ProductRepository productRepository;
     private final UserRepository userRepository;
+    private final RabbitTemplate rabbitTemplate;
 
-    public OrderService(OrderRepository orderRepository, ProductRepository productRepository, UserRepository userRepository) {
+    public OrderService(OrderRepository orderRepository, ProductRepository productRepository, UserRepository userRepository, RabbitTemplate rabbitTemplate) {
         this.orderRepository = orderRepository;
         this.productRepository = productRepository;
         this.userRepository = userRepository;
+        this.rabbitTemplate = rabbitTemplate;
     }
 
     @Transactional 
@@ -73,6 +79,9 @@ public class OrderService {
         }
         order.setTotal(total);
         Order saved = orderRepository.save(order);
+
+        rabbitTemplate.convertAndSend(RabbitMQConfig.ORDER_EXCHANGE, RabbitMQConfig.ORDER_CREATED_ROUTING_KEY, new OrderCreatedEvent(saved.getId()));
+
         return toResponse(saved);
     }
 
