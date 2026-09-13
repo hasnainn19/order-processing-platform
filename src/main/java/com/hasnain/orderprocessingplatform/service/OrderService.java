@@ -59,7 +59,7 @@ public class OrderService {
             Long productId = entry.getKey();
             int quantity = entry.getValue();
 
-            Product product = productRepository.findById(productId)
+            Product product = productRepository.findByIdForUpdate(productId)
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found: " + productId));
             
             if (product.getStockQuantity() < quantity) {
