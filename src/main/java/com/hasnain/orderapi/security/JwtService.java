@@ -15,11 +15,13 @@ import java.util.Date;
 @Component 
 public class JwtService {
     
-    @Value("${jwt.secret}")
-    private String secret;
+    private final String secret;
+    private final long expirationMs;
 
-    @Value("${jwt.expiration-ms}")
-    private long expirationMs;
+    public JwtService(@Value("${jwt.secret}") String secret, @Value("${jwt.expiration-ms}") long expirationMs) {
+        this.secret = secret;
+        this.expirationMs = expirationMs;
+    }
 
     private SecretKey getSigningKey() {
         return Keys.hmacShaKeyFor(secret.getBytes());
