@@ -71,6 +71,14 @@ class OrderServiceTest {
         return product;
     }
 
+    private Order existingOrder() {
+        Order order = new Order();
+        order.setId(10L);
+        order.setUser(existingUser());
+        order.setTotal(new BigDecimal("89.99"));
+        return order;
+    }
+
     @Test
     void createOrder_decrementsStockAndCalculatesTotal_andPublishesEvent_whenValid() {
         User user = existingUser();
@@ -147,12 +155,7 @@ class OrderServiceTest {
 
     @Test
     void getOrderById_returnsMappedResponse_whenOrderExists() {
-        User user = existingUser();
-
-        Order order = new Order();
-        order.setId(10L);
-        order.setUser(user);
-        order.setTotal(new BigDecimal("89.99"));
+        Order order = existingOrder();
 
         when(orderRepository.findById(10L)).thenReturn(Optional.of(order));
 
@@ -174,12 +177,7 @@ class OrderServiceTest {
 
     @Test
     void getAllOrders_mapsPageCorrectly_includingPaginationMetadata() {
-        User user = existingUser();
-
-        Order order = new Order();
-        order.setId(10L);
-        order.setUser(user);
-        order.setTotal(new BigDecimal("89.99"));
+        Order order = existingOrder();
 
         PageImpl<Order> page = new PageImpl<>(List.of(order), PageRequest.of(0, 20), 1);
         when(orderRepository.findAll(any(PageRequest.class))).thenReturn(page);
