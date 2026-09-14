@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.hasnain</groupId>
-	<artifactId>order-processing-platform</artifactId>
+	<artifactId>order-api</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>order-processing-platform</name>
+	<name>order-api</name>
 	<description/>
 	<url/>
 	<licenses>
