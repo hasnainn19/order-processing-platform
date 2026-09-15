@@ -1,4 +1,18 @@
 services:
+  app:
+    build: .
+    container_name: order-platform-app
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/orderplatform
+      SPRING_DATA_REDIS_HOST: redis
+      SPRING_RABBITMQ_HOST: rabbitmq
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+      - redis
+      - rabbitmq
+
   postgres:
     image: postgres:16
     container_name: order-platform-postgres
