@@ -1,7 +1,7 @@
 services:
-  app:
+  order-api:
     build: ./order-api
-    container_name: order-platform-app
+    container_name: order-platform-order-api
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/orderplatform
       SPRING_DATA_REDIS_HOST: redis
@@ -11,6 +11,14 @@ services:
     depends_on:
       - postgres
       - redis
+      - rabbitmq
+
+  payment-worker:
+    build: ./payment-worker
+    container_name: order-platform-payment-worker
+    environment:
+      SPRING_RABBITMQ_HOST: rabbitmq
+    depends_on:
       - rabbitmq
 
   postgres:
