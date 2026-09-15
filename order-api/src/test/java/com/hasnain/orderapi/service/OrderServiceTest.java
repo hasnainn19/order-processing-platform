@@ -102,7 +102,7 @@ class OrderServiceTest {
 
         ArgumentCaptor<OrderCreatedEvent> eventCaptor = ArgumentCaptor.forClass(OrderCreatedEvent.class);
         verify(rabbitTemplate).convertAndSend(
-                eq(RabbitMQConfig.ORDER_EXCHANGE),
+                eq(RabbitMQConfig.ORDER_CREATED_EXCHANGE),
                 eq(RabbitMQConfig.ORDER_CREATED_ROUTING_KEY),
                 eventCaptor.capture()
         );

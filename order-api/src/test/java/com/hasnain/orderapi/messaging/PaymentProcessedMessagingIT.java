@@ -25,7 +25,7 @@ import static org.awaitility.Awaitility.await;
 
 @SpringBootTest
 @Testcontainers
-class OrderMessagingIT extends AbstractPostgresContainerTest {
+class PaymentProcessedMessagingIT extends AbstractPostgresContainerTest {
 
     @Container
     @ServiceConnection
@@ -54,35 +54,51 @@ class OrderMessagingIT extends AbstractPostgresContainerTest {
     }
 
     @Test
-    void orderCreatedEvent_isConsumedThroughRealBroker_andMovesOrderPastProcessing() {
+    void paymentProcessedEvent_withSuccessfulPayment_movesOrderToConfirmed() {
         Order order = existingOrder();
 
         rabbitTemplate.convertAndSend(
-                RabbitMQConfig.ORDER_EXCHANGE,
-                RabbitMQConfig.ORDER_CREATED_ROUTING_KEY,
-                new OrderCreatedEvent(order.getId())
+                RabbitMQConfig.PAYMENT_PROCESSED_EXCHANGE,
+                RabbitMQConfig.PAYMENT_PROCESSED_ROUTING_KEY,
+                new PaymentProcessedEvent(order.getId(), true, null)
         );
 
         await().atMost(Duration.ofSeconds(5)).untilAsserted(() -> {
             Order updated = orderRepository.findById(order.getId()).orElseThrow();
-            assertThat(updated.getStatus()).isIn(OrderStatus.CONFIRMED, OrderStatus.PAYMENT_FAILED);
+            assertThat(updated.getStatus()).isEqualTo(OrderStatus.CONFIRMED);
         });
     }
 
     @Test
-    void orderCreatedEvent_forNonExistentOrder_exhaustsRetriesAndLandsOnDeadLetterQueue() {
+    void paymentProcessedEvent_withFailedPayment_movesOrderToPaymentFailed() {
+        Order order = existingOrder();
+
+        rabbitTemplate.convertAndSend(
+                RabbitMQConfig.PAYMENT_PROCESSED_EXCHANGE,
+                RabbitMQConfig.PAYMENT_PROCESSED_ROUTING_KEY,
+                new PaymentProcessedEvent(order.getId(), false, "card_declined")
+        );
+
+        await().atMost(Duration.ofSeconds(5)).untilAsserted(() -> {
+            Order updated = orderRepository.findById(order.getId()).orElseThrow();
+            assertThat(updated.getStatus()).isEqualTo(OrderStatus.PAYMENT_FAILED);
+        });
+    }
+
+    @Test
+    void paymentProcessedEvent_forNonExistentOrder_exhaustsRetriesAndLandsOnDeadLetterQueue() {
         Long nonExistentOrderId = 999_999L;
 
         rabbitTemplate.convertAndSend(
-                RabbitMQConfig.ORDER_EXCHANGE,
-                RabbitMQConfig.ORDER_CREATED_ROUTING_KEY,
-                new OrderCreatedEvent(nonExistentOrderId)
+                RabbitMQConfig.PAYMENT_PROCESSED_EXCHANGE,
+                RabbitMQConfig.PAYMENT_PROCESSED_ROUTING_KEY,
+                new PaymentProcessedEvent(nonExistentOrderId, true, null)
         );
 
         await().atMost(Duration.ofSeconds(8)).untilAsserted(() -> {
-            OrderCreatedEvent deadLettered = rabbitTemplate.receiveAndConvert(
-                    RabbitMQConfig.DLQ_QUEUE,
-                    new ParameterizedTypeReference<OrderCreatedEvent>() {}
+            PaymentProcessedEvent deadLettered = rabbitTemplate.receiveAndConvert(
+                    RabbitMQConfig.PAYMENT_PROCESSED_DLQ,
+                    new ParameterizedTypeReference<PaymentProcessedEvent>() {}
             );
             assertThat(deadLettered).isNotNull();
             assertThat(deadLettered.orderId()).isEqualTo(nonExistentOrderId);
