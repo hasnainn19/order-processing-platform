@@ -22,7 +22,8 @@ jobs:
           cache: maven
 
       - name: Run unit and integration tests
+        working-directory: order-api
         run: mvn verify
 
       - name: Build Docker image
-        run: docker build -t order-api:ci .
+        run: docker build -t order-api:ci ./order-api

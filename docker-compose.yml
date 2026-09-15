@@ -1,6 +1,6 @@
 services:
   app:
-    build: .
+    build: ./order-api
     container_name: order-platform-app
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/orderplatform
