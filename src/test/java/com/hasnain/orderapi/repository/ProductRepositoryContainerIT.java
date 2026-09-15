@@ -2,20 +2,16 @@ package com.hasnain.orderapi.repository;
 
 import com.hasnain.orderapi.entity.Product;
 import com.hasnain.orderapi.exception.InsufficientStockException;
+import com.hasnain.orderapi.support.AbstractPostgresContainerTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
 import org.springframework.boot.jdbc.test.autoconfigure.AutoConfigureTestDatabase;
-import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
-import org.springframework.cache.CacheManager;
 import org.springframework.context.annotation.Import;
 import org.springframework.stereotype.Component;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
-import org.testcontainers.postgresql.PostgreSQLContainer;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -33,20 +29,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Testcontainers
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Import(ProductRepositoryContainerIT.StockDecrementer.class)
-class ProductRepositoryContainerIT {
-
-    @Container
-    @ServiceConnection
-    static PostgreSQLContainer postgres = new PostgreSQLContainer("postgres:16");
+class ProductRepositoryContainerIT extends AbstractPostgresContainerTest {
 
     @Autowired
     private ProductRepository productRepository;
 
     @Autowired
     private StockDecrementer stockDecrementer;
-
-    @MockitoBean
-    private CacheManager cacheManager;
 
     @Test
     void save_thenFindById_returnsProductWithMatchingFields() {
