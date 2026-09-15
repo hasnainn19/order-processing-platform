@@ -80,7 +80,7 @@ public class OrderService {
         order.setTotal(total);
         Order saved = orderRepository.save(order);
 
-        rabbitTemplate.convertAndSend(RabbitMQConfig.ORDER_EXCHANGE, RabbitMQConfig.ORDER_CREATED_ROUTING_KEY, new OrderCreatedEvent(saved.getId()));
+        rabbitTemplate.convertAndSend(RabbitMQConfig.ORDER_CREATED_EXCHANGE, RabbitMQConfig.ORDER_CREATED_ROUTING_KEY, new OrderCreatedEvent(saved.getId()));
 
         return toResponse(saved);
     }

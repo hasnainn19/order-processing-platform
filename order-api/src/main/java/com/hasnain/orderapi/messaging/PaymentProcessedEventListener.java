@@ -8,27 +8,22 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Random;
-
 @Service
-public class OrderEventListener {
-    
-    private final OrderRepository orderRepository;
-    private final Random random = new Random();
+public class PaymentProcessedEventListener {
 
-    public OrderEventListener(OrderRepository orderRepository) {
+    private final OrderRepository orderRepository;
+
+    public PaymentProcessedEventListener(OrderRepository orderRepository) {
         this.orderRepository = orderRepository;
     }
 
-    @RabbitListener(queues = RabbitMQConfig.ORDER_QUEUE)
+    @RabbitListener(queues = RabbitMQConfig.PAYMENT_PROCESSED_QUEUE)
     @Transactional
-    public void handleOrderCreated(OrderCreatedEvent event) {
+    public void handlePaymentProcessed(PaymentProcessedEvent event) {
         Order order = orderRepository.findById(event.orderId())
             .orElseThrow(() -> new ResourceNotFoundException("Order not found with id: " + event.orderId()));
 
-        boolean paymentSucceeded = random.nextInt(100) >= 15;
-
-        if (paymentSucceeded) {
+        if (event.paymentSucceeded()) {
             order.setStatus(OrderStatus.PAID);
             orderRepository.save(order);
 
