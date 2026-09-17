@@ -16,6 +16,7 @@ import com.hasnain.orderapi.exception.ResourceNotFoundException;
 import com.hasnain.orderapi.messaging.OrderCreatedEvent;
 import com.hasnain.orderapi.messaging.RabbitMQConfig;
 import com.hasnain.orderapi.exception.InsufficientStockException;
+import org.springframework.security.access.AccessDeniedException;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -86,17 +87,23 @@ public class OrderService {
     }
 
     @Transactional(readOnly = true)
-    public OrderResponse getOrderById(Long id) {
+    public OrderResponse getOrderById(Long id, String callerEmail, boolean isAdmin) {
         Order order = orderRepository.findById(id)
             .orElseThrow(() -> new ResourceNotFoundException("Order not found with id: " + id));
+
+        if (!isAdmin && !order.getUser().getEmail().equals(callerEmail)) {
+            throw new AccessDeniedException("You do not have permission to view this order");
+        }
 
         return toResponse(order);
     }
 
     @Transactional(readOnly = true)
-    public PagedResponse<OrderResponse> getAllOrders(int page, int size) {
+    public PagedResponse<OrderResponse> getAllOrders(int page, int size, String callerEmail, boolean isAdmin) {
         Pageable pageable = PageRequest.of(page, size);
-        Page<Order> orderPage = orderRepository.findAll(pageable);
+        Page<Order> orderPage = isAdmin
+            ? orderRepository.findAll(pageable)
+            : orderRepository.findByUser_Email(callerEmail, pageable);
 
         return new PagedResponse<>(
             orderPage.getContent().stream().map(this::toResponse).toList(),

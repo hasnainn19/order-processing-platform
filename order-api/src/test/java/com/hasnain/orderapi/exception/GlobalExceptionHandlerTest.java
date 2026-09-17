@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -52,6 +53,17 @@ class GlobalExceptionHandlerTest {
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.UNAUTHORIZED);
         assertThat(response.getBody().status()).isEqualTo(401);
         assertThat(response.getBody().message()).isEqualTo("Invalid email or password");
+    }
+
+    @Test
+    void handleAccessDenied_returns403WithExceptionMessage() {
+        AccessDeniedException ex = new AccessDeniedException("You do not have permission to view this order");
+
+        ResponseEntity<ErrorResponse> response = handler.handleAccessDenied(ex);
+
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.FORBIDDEN);
+        assertThat(response.getBody().status()).isEqualTo(403);
+        assertThat(response.getBody().message()).isEqualTo("You do not have permission to view this order");
     }
 
     @Test

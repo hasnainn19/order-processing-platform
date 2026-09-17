@@ -8,6 +8,8 @@ import com.hasnain.orderapi.dto.PagedResponse;
 
 import jakarta.validation.Valid;
 
+import com.hasnain.orderapi.security.SecurityUtils;
+
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,15 +30,16 @@ public class OrderController {
     }
 
     @GetMapping("/{id}")
-    public OrderResponse getOrderById(@PathVariable Long id) {
-        return orderService.getOrderById(id);
+    public OrderResponse getOrderById(@PathVariable Long id, Authentication authentication) {
+        return orderService.getOrderById(id, authentication.getName(), SecurityUtils.isAdmin(authentication));
     }
 
     @GetMapping
     public PagedResponse<OrderResponse> getAllOrders(
         @RequestParam(defaultValue = "0") int page,
-        @RequestParam(defaultValue = "20") int size) {
-        return orderService.getAllOrders(page, size);
+        @RequestParam(defaultValue = "20") int size,
+        Authentication authentication) {
+        return orderService.getAllOrders(page, size, authentication.getName(), SecurityUtils.isAdmin(authentication));
     }
 
     @PostMapping

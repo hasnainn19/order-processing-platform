@@ -11,8 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -50,11 +52,16 @@ class OrderControllerTest extends ControllerTestSupport {
         return new UsernamePasswordAuthenticationToken("john@example.com", null, List.of());
     }
 
+    private Authentication authenticatedAsAdmin() {
+        return new UsernamePasswordAuthenticationToken("admin@example.com", null,
+                List.of(new SimpleGrantedAuthority("ROLE_ADMIN")));
+    }
+
     @Test
     void getOrderById_returnsOrder_whenFound() throws Exception {
-        when(orderService.getOrderById(10L)).thenReturn(anOrder());
+        when(orderService.getOrderById(10L, "john@example.com", false)).thenReturn(anOrder());
 
-        mockMvc.perform(get("/api/orders/10"))
+        mockMvc.perform(get("/api/orders/10").principal(authenticatedAsJohn()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(10))
                 .andExpect(jsonPath("$.userEmail").value("john@example.com"));
@@ -62,20 +69,39 @@ class OrderControllerTest extends ControllerTestSupport {
 
     @Test
     void getOrderById_returns404_whenOrderDoesNotExist() throws Exception {
-        when(orderService.getOrderById(404L))
+        when(orderService.getOrderById(404L, "john@example.com", false))
                 .thenThrow(new ResourceNotFoundException("Order not found with id: 404"));
 
-        mockMvc.perform(get("/api/orders/404"))
+        mockMvc.perform(get("/api/orders/404").principal(authenticatedAsJohn()))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.message").value("Order not found with id: 404"));
     }
 
     @Test
+    void getOrderById_returns403_whenCallerLacksPermission() throws Exception {
+        when(orderService.getOrderById(10L, "john@example.com", false))
+                .thenThrow(new AccessDeniedException("You do not have permission to view this order"));
+
+        mockMvc.perform(get("/api/orders/10").principal(authenticatedAsJohn()))
+                .andExpect(status().isForbidden())
+                .andExpect(jsonPath("$.message").value("You do not have permission to view this order"));
+    }
+
+    @Test
+    void getOrderById_passesAdminFlag_whenCallerIsAdmin() throws Exception {
+        when(orderService.getOrderById(10L, "admin@example.com", true)).thenReturn(anOrder());
+
+        mockMvc.perform(get("/api/orders/10").principal(authenticatedAsAdmin()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(10));
+    }
+
+    @Test
     void getAllOrders_usesDefaultPaging_whenNoQueryParamsProvided() throws Exception {
         PagedResponse<OrderResponse> page = new PagedResponse<>(List.of(anOrder()), 0, 20, 1, 1, true);
-        when(orderService.getAllOrders(0, 20)).thenReturn(page);
+        when(orderService.getAllOrders(0, 20, "john@example.com", false)).thenReturn(page);
 
-        mockMvc.perform(get("/api/orders"))
+        mockMvc.perform(get("/api/orders").principal(authenticatedAsJohn()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.content[0].id").value(10))
                 .andExpect(jsonPath("$.page").value(0))
@@ -85,12 +111,22 @@ class OrderControllerTest extends ControllerTestSupport {
     @Test
     void getAllOrders_passesProvidedPageAndSizeQueryParams() throws Exception {
         PagedResponse<OrderResponse> page = new PagedResponse<>(List.of(), 1, 10, 0, 0, true);
-        when(orderService.getAllOrders(1, 10)).thenReturn(page);
+        when(orderService.getAllOrders(1, 10, "john@example.com", false)).thenReturn(page);
 
-        mockMvc.perform(get("/api/orders").param("page", "1").param("size", "10"))
+        mockMvc.perform(get("/api/orders").principal(authenticatedAsJohn()).param("page", "1").param("size", "10"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.page").value(1))
                 .andExpect(jsonPath("$.size").value(10));
+    }
+
+    @Test
+    void getAllOrders_passesAdminFlag_whenCallerIsAdmin() throws Exception {
+        PagedResponse<OrderResponse> page = new PagedResponse<>(List.of(anOrder()), 0, 20, 1, 1, true);
+        when(orderService.getAllOrders(0, 20, "admin@example.com", true)).thenReturn(page);
+
+        mockMvc.perform(get("/api/orders").principal(authenticatedAsAdmin()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.content[0].id").value(10));
     }
 
     @Test

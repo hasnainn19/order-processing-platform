@@ -23,6 +23,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.access.AccessDeniedException;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -154,12 +155,12 @@ class OrderServiceTest {
     }
 
     @Test
-    void getOrderById_returnsMappedResponse_whenOrderExists() {
+    void getOrderById_returnsMappedResponse_whenCallerIsOwner() {
         Order order = existingOrder();
 
         when(orderRepository.findById(10L)).thenReturn(Optional.of(order));
 
-        OrderResponse response = orderService.getOrderById(10L);
+        OrderResponse response = orderService.getOrderById(10L, "john@example.com", false);
 
         assertThat(response.id()).isEqualTo(10L);
         assertThat(response.userId()).isEqualTo(3L);
@@ -168,21 +169,42 @@ class OrderServiceTest {
     }
 
     @Test
+    void getOrderById_returnsMappedResponse_whenCallerIsAdminButNotOwner() {
+        Order order = existingOrder();
+
+        when(orderRepository.findById(10L)).thenReturn(Optional.of(order));
+
+        OrderResponse response = orderService.getOrderById(10L, "admin@example.com", true);
+
+        assertThat(response.id()).isEqualTo(10L);
+    }
+
+    @Test
+    void getOrderById_throwsAccessDeniedException_whenCallerIsNeitherOwnerNorAdmin() {
+        Order order = existingOrder();
+
+        when(orderRepository.findById(10L)).thenReturn(Optional.of(order));
+
+        assertThatThrownBy(() -> orderService.getOrderById(10L, "stranger@example.com", false))
+                .isInstanceOf(AccessDeniedException.class);
+    }
+
+    @Test
     void getOrderById_throwsResourceNotFoundException_whenOrderDoesNotExist() {
         when(orderRepository.findById(404L)).thenReturn(Optional.empty());
 
-        assertThatThrownBy(() -> orderService.getOrderById(404L))
+        assertThatThrownBy(() -> orderService.getOrderById(404L, "john@example.com", false))
                 .isInstanceOf(ResourceNotFoundException.class);
     }
 
     @Test
-    void getAllOrders_mapsPageCorrectly_includingPaginationMetadata() {
+    void getAllOrders_returnsAllOrders_whenCallerIsAdmin() {
         Order order = existingOrder();
 
         PageImpl<Order> page = new PageImpl<>(List.of(order), PageRequest.of(0, 20), 1);
         when(orderRepository.findAll(any(PageRequest.class))).thenReturn(page);
 
-        PagedResponse<OrderResponse> response = orderService.getAllOrders(0, 20);
+        PagedResponse<OrderResponse> response = orderService.getAllOrders(0, 20, "admin@example.com", true);
 
         assertThat(response.content()).hasSize(1);
         assertThat(response.content().get(0).id()).isEqualTo(10L);
@@ -191,5 +213,19 @@ class OrderServiceTest {
         assertThat(response.totalElements()).isEqualTo(1);
         assertThat(response.totalPages()).isEqualTo(1);
         assertThat(response.last()).isTrue();
+    }
+
+    @Test
+    void getAllOrders_returnsOnlyCallersOwnOrders_whenCallerIsNotAdmin() {
+        Order order = existingOrder();
+
+        PageImpl<Order> page = new PageImpl<>(List.of(order), PageRequest.of(0, 20), 1);
+        when(orderRepository.findByUser_Email(eq("john@example.com"), any(PageRequest.class))).thenReturn(page);
+
+        PagedResponse<OrderResponse> response = orderService.getAllOrders(0, 20, "john@example.com", false);
+
+        assertThat(response.content()).hasSize(1);
+        assertThat(response.content().get(0).id()).isEqualTo(10L);
+        verify(orderRepository, never()).findAll(any(PageRequest.class));
     }
 }
