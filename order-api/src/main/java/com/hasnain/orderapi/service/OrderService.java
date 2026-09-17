@@ -92,7 +92,7 @@ public class OrderService {
             .orElseThrow(() -> new ResourceNotFoundException("Order not found with id: " + id));
 
         if (!isAdmin && !order.getUser().getEmail().equals(callerEmail)) {
-            throw new AccessDeniedException("You do not have permission to view this order");
+            throw new AccessDeniedException("You do not have permission to perform this action");
         }
 
         return toResponse(order);

@@ -6,6 +6,7 @@ import com.hasnain.orderapi.repository.UserRepository;
 import com.hasnain.orderapi.dto.UserResponse;
 import com.hasnain.orderapi.dto.CreateUserRequest;
 import com.hasnain.orderapi.exception.ResourceNotFoundException;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -21,9 +22,13 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public UserResponse getUserById(Long id) {
+    public UserResponse getUserById(Long id, String callerEmail, boolean isAdmin) {
         User user = userRepository.findById(id)
             .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + id));
+
+        if (!isAdmin && !user.getEmail().equals(callerEmail)) {
+            throw new AccessDeniedException("You do not have permission to perform this action");
+        }
 
         return toResponse(user);
     }

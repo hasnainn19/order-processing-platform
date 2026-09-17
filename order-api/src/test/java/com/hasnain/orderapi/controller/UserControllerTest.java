@@ -9,8 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -29,11 +35,21 @@ class UserControllerTest extends ControllerTestSupport {
     @MockitoBean
     private UserService userService;
 
+    private Authentication authenticatedAsJohn() {
+        return new UsernamePasswordAuthenticationToken("john@example.com", null, List.of());
+    }
+
+    private Authentication authenticatedAsAdmin() {
+        return new UsernamePasswordAuthenticationToken("admin@example.com", null,
+                List.of(new SimpleGrantedAuthority("ROLE_ADMIN")));
+    }
+
     @Test
     void getUserById_returnsUser_whenFound() throws Exception {
-        when(userService.getUserById(1L)).thenReturn(new UserResponse(1L, "john@example.com", Role.USER));
+        when(userService.getUserById(1L, "john@example.com", false))
+                .thenReturn(new UserResponse(1L, "john@example.com", Role.USER));
 
-        mockMvc.perform(get("/api/users/1"))
+        mockMvc.perform(get("/api/users/1").principal(authenticatedAsJohn()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1))
                 .andExpect(jsonPath("$.email").value("john@example.com"))
@@ -42,12 +58,32 @@ class UserControllerTest extends ControllerTestSupport {
 
     @Test
     void getUserById_returns404_whenUserDoesNotExist() throws Exception {
-        when(userService.getUserById(99L))
+        when(userService.getUserById(99L, "john@example.com", false))
                 .thenThrow(new ResourceNotFoundException("User not found with id: 99"));
 
-        mockMvc.perform(get("/api/users/99"))
+        mockMvc.perform(get("/api/users/99").principal(authenticatedAsJohn()))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.message").value("User not found with id: 99"));
+    }
+
+    @Test
+    void getUserById_returns403_whenCallerLacksPermission() throws Exception {
+        when(userService.getUserById(1L, "john@example.com", false))
+                .thenThrow(new AccessDeniedException("You do not have permission to perform this action"));
+
+        mockMvc.perform(get("/api/users/1").principal(authenticatedAsJohn()))
+                .andExpect(status().isForbidden())
+                .andExpect(jsonPath("$.message").value("You do not have permission to perform this action"));
+    }
+
+    @Test
+    void getUserById_passesAdminFlag_whenCallerIsAdmin() throws Exception {
+        when(userService.getUserById(1L, "admin@example.com", true))
+                .thenReturn(new UserResponse(1L, "john@example.com", Role.USER));
+
+        mockMvc.perform(get("/api/users/1").principal(authenticatedAsAdmin()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(1));
     }
 
     @Test

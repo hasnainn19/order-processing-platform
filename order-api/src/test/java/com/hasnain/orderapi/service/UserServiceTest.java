@@ -12,6 +12,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
@@ -34,16 +35,21 @@ class UserServiceTest {
     @InjectMocks
     private UserService userService;
 
-    @Test
-    void getUserById_returnsMappedResponse_whenUserExists() {
+    private User existingUser() {
         User user = new User();
         user.setId(1L);
         user.setEmail("john@example.com");
         user.setRole(Role.USER);
+        return user;
+    }
+
+    @Test
+    void getUserById_returnsMappedResponse_whenCallerIsOwner() {
+        User user = existingUser();
 
         when(userRepository.findById(1L)).thenReturn(Optional.of(user));
 
-        UserResponse response = userService.getUserById(1L);
+        UserResponse response = userService.getUserById(1L, "john@example.com", false);
 
         assertThat(response.id()).isEqualTo(1L);
         assertThat(response.email()).isEqualTo("john@example.com");
@@ -51,10 +57,31 @@ class UserServiceTest {
     }
 
     @Test
+    void getUserById_returnsMappedResponse_whenCallerIsAdminButNotOwner() {
+        User user = existingUser();
+
+        when(userRepository.findById(1L)).thenReturn(Optional.of(user));
+
+        UserResponse response = userService.getUserById(1L, "admin@example.com", true);
+
+        assertThat(response.id()).isEqualTo(1L);
+    }
+
+    @Test
+    void getUserById_throwsAccessDeniedException_whenCallerIsNeitherOwnerNorAdmin() {
+        User user = existingUser();
+
+        when(userRepository.findById(1L)).thenReturn(Optional.of(user));
+
+        assertThatThrownBy(() -> userService.getUserById(1L, "stranger@example.com", false))
+                .isInstanceOf(AccessDeniedException.class);
+    }
+
+    @Test
     void getUserById_throwsResourceNotFoundException_whenUserDoesNotExist() {
         when(userRepository.findById(99L)).thenReturn(Optional.empty());
 
-        assertThatThrownBy(() -> userService.getUserById(99L))
+        assertThatThrownBy(() -> userService.getUserById(99L, "john@example.com", false))
                 .isInstanceOf(ResourceNotFoundException.class)
                 .hasMessageContaining("99");
     }

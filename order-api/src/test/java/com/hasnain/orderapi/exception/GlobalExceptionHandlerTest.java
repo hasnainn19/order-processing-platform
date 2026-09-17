@@ -57,13 +57,13 @@ class GlobalExceptionHandlerTest {
 
     @Test
     void handleAccessDenied_returns403WithExceptionMessage() {
-        AccessDeniedException ex = new AccessDeniedException("You do not have permission to view this order");
+        AccessDeniedException ex = new AccessDeniedException("You do not have permission to perform this action");
 
         ResponseEntity<ErrorResponse> response = handler.handleAccessDenied(ex);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.FORBIDDEN);
         assertThat(response.getBody().status()).isEqualTo(403);
-        assertThat(response.getBody().message()).isEqualTo("You do not have permission to view this order");
+        assertThat(response.getBody().message()).isEqualTo("You do not have permission to perform this action");
     }
 
     @Test

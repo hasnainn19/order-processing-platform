@@ -80,11 +80,11 @@ class OrderControllerTest extends ControllerTestSupport {
     @Test
     void getOrderById_returns403_whenCallerLacksPermission() throws Exception {
         when(orderService.getOrderById(10L, "john@example.com", false))
-                .thenThrow(new AccessDeniedException("You do not have permission to view this order"));
+                .thenThrow(new AccessDeniedException("You do not have permission to perform this action"));
 
         mockMvc.perform(get("/api/orders/10").principal(authenticatedAsJohn()))
                 .andExpect(status().isForbidden())
-                .andExpect(jsonPath("$.message").value("You do not have permission to view this order"));
+                .andExpect(jsonPath("$.message").value("You do not have permission to perform this action"));
     }
 
     @Test
