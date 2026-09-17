@@ -1,0 +1,1002 @@
+[
+  {
+    "name": "Seat Cover Set",
+    "price": 14.55,
+    "stockQuantity": 15
+  },
+  {
+    "name": "Knife Block Set",
+    "price": 43.2,
+    "stockQuantity": 14
+  },
+  {
+    "name": "Bath Bomb Set",
+    "price": 70.22,
+    "stockQuantity": 7
+  },
+  {
+    "name": "Pet Hair Vacuum",
+    "price": 37.25,
+    "stockQuantity": 16
+  },
+  {
+    "name": "Essential Oil Diffuser",
+    "price": 85.14,
+    "stockQuantity": 5
+  },
+  {
+    "name": "Pet Bed",
+    "price": 111.8,
+    "stockQuantity": 12
+  },
+  {
+    "name": "Comic Box Set",
+    "price": 35.1,
+    "stockQuantity": 4
+  },
+  {
+    "name": "Yo-Yo",
+    "price": 9.57,
+    "stockQuantity": 15
+  },
+  {
+    "name": "Monitor Arm",
+    "price": 25.22,
+    "stockQuantity": 19
+  },
+  {
+    "name": "Webcam",
+    "price": 275.53,
+    "stockQuantity": 3
+  },
+  {
+    "name": "Water Gun",
+    "price": 28.52,
+    "stockQuantity": 6
+  },
+  {
+    "name": "Smartwatch",
+    "price": 177.44,
+    "stockQuantity": 7
+  },
+  {
+    "name": "Picture Book",
+    "price": 12.24,
+    "stockQuantity": 15
+  },
+  {
+    "name": "Notebook Set",
+    "price": 179.79,
+    "stockQuantity": 2
+  },
+  {
+    "name": "Audiobook Bundle",
+    "price": 33.47,
+    "stockQuantity": 1
+  },
+  {
+    "name": "Pet Carrier",
+    "price": 20.67,
+    "stockQuantity": 16
+  },
+  {
+    "name": "Poetry Collection",
+    "price": 8.06,
+    "stockQuantity": 20
+  },
+  {
+    "name": "Bookend Set",
+    "price": 43.33,
+    "stockQuantity": 16
+  },
+  {
+    "name": "OBD2 Scanner",
+    "price": 27.7,
+    "stockQuantity": 16
+  },
+  {
+    "name": "Biography",
+    "price": 30.76,
+    "stockQuantity": 2
+  },
+  {
+    "name": "Action Camera",
+    "price": 99.87,
+    "stockQuantity": 9
+  },
+  {
+    "name": "Foam Dart Blaster",
+    "price": 68.85,
+    "stockQuantity": 2
+  },
+  {
+    "name": "Digital Piano",
+    "price": 380.09,
+    "stockQuantity": 19
+  },
+  {
+    "name": "Toaster",
+    "price": 164.28,
+    "stockQuantity": 10
+  },
+  {
+    "name": "Action Figure",
+    "price": 59.79,
+    "stockQuantity": 2
+  },
+  {
+    "name": "Sleeping Bag",
+    "price": 258.76,
+    "stockQuantity": 7
+  },
+  {
+    "name": "Jump Starter",
+    "price": 129.05,
+    "stockQuantity": 5
+  },
+  {
+    "name": "Cello",
+    "price": 1182.86,
+    "stockQuantity": 3
+  },
+  {
+    "name": "Drum Set",
+    "price": 459.5,
+    "stockQuantity": 9
+  },
+  {
+    "name": "Network Switch",
+    "price": 224.8,
+    "stockQuantity": 7
+  },
+  {
+    "name": "Conference Speakerphone",
+    "price": 74.85,
+    "stockQuantity": 19
+  },
+  {
+    "name": "Portable SSD",
+    "price": 358.49,
+    "stockQuantity": 5
+  },
+  {
+    "name": "Makeup Brush Set",
+    "price": 87.95,
+    "stockQuantity": 2
+  },
+  {
+    "name": "Art Book",
+    "price": 10.77,
+    "stockQuantity": 20
+  },
+  {
+    "name": "Aquarium Kit",
+    "price": 43.69,
+    "stockQuantity": 14
+  },
+  {
+    "name": "Electric Guitar",
+    "price": 1109.86,
+    "stockQuantity": 4
+  },
+  {
+    "name": "Mechanical Keyboard",
+    "price": 24.63,
+    "stockQuantity": 15
+  },
+  {
+    "name": "Perfume",
+    "price": 22.2,
+    "stockQuantity": 18
+  },
+  {
+    "name": "Facial Cleansing Brush",
+    "price": 50.96,
+    "stockQuantity": 15
+  },
+  {
+    "name": "Dutch Oven",
+    "price": 43.51,
+    "stockQuantity": 15
+  },
+  {
+    "name": "Encyclopedia Set",
+    "price": 28.17,
+    "stockQuantity": 12
+  },
+  {
+    "name": "Wireless Charger",
+    "price": 26.47,
+    "stockQuantity": 17
+  },
+  {
+    "name": "Cookware Set",
+    "price": 112.82,
+    "stockQuantity": 19
+  },
+  {
+    "name": "Pet Grooming Kit",
+    "price": 121.32,
+    "stockQuantity": 7
+  },
+  {
+    "name": "Office Chair",
+    "price": 131.56,
+    "stockQuantity": 13
+  },
+  {
+    "name": "Hiking Backpack",
+    "price": 62.14,
+    "stockQuantity": 16
+  },
+  {
+    "name": "Vacuum Sealer",
+    "price": 128.44,
+    "stockQuantity": 12
+  },
+  {
+    "name": "Pedal Steel Guitar",
+    "price": 452.11,
+    "stockQuantity": 15
+  },
+  {
+    "name": "Power Bank",
+    "price": 48.47,
+    "stockQuantity": 16
+  },
+  {
+    "name": "Vinyl Record",
+    "price": 8.56,
+    "stockQuantity": 14
+  },
+  {
+    "name": "Wine Glass Set",
+    "price": 96.88,
+    "stockQuantity": 20
+  },
+  {
+    "name": "Electric Kettle",
+    "price": 189.28,
+    "stockQuantity": 1
+  },
+  {
+    "name": "Hair Dryer",
+    "price": 139.92,
+    "stockQuantity": 3
+  },
+  {
+    "name": "Science Fiction Novel",
+    "price": 33.22,
+    "stockQuantity": 4
+  },
+  {
+    "name": "Wireless Mouse",
+    "price": 261.18,
+    "stockQuantity": 3
+  },
+  {
+    "name": "Reptile Terrarium",
+    "price": 71.74,
+    "stockQuantity": 11
+  },
+  {
+    "name": "Bluetooth Speaker",
+    "price": 100.94,
+    "stockQuantity": 11
+  },
+  {
+    "name": "Graphics Tablet",
+    "price": 91.55,
+    "stockQuantity": 16
+  },
+  {
+    "name": "Djembe Drum",
+    "price": 1007.57,
+    "stockQuantity": 1
+  },
+  {
+    "name": "Camping Tent",
+    "price": 383.36,
+    "stockQuantity": 4
+  },
+  {
+    "name": "Car Wash Kit",
+    "price": 140.06,
+    "stockQuantity": 4
+  },
+  {
+    "name": "Trading Card Pack",
+    "price": 73.95,
+    "stockQuantity": 3
+  },
+  {
+    "name": "Hair Straightener",
+    "price": 140.87,
+    "stockQuantity": 5
+  },
+  {
+    "name": "Road Bike",
+    "price": 258.75,
+    "stockQuantity": 7
+  },
+  {
+    "name": "Mandolin",
+    "price": 1045.12,
+    "stockQuantity": 1
+  },
+  {
+    "name": "Tire Pressure Gauge",
+    "price": 15.85,
+    "stockQuantity": 14
+  },
+  {
+    "name": "Bird Cage",
+    "price": 119.17,
+    "stockQuantity": 11
+  },
+  {
+    "name": "Sticky Note Pack",
+    "price": 75.19,
+    "stockQuantity": 13
+  },
+  {
+    "name": "Violin",
+    "price": 769.22,
+    "stockQuantity": 12
+  },
+  {
+    "name": "Building Block Set",
+    "price": 26.39,
+    "stockQuantity": 9
+  },
+  {
+    "name": "Car Cover",
+    "price": 37.35,
+    "stockQuantity": 20
+  },
+  {
+    "name": "Banjo",
+    "price": 1032.17,
+    "stockQuantity": 2
+  },
+  {
+    "name": "Filing Cabinet",
+    "price": 159.13,
+    "stockQuantity": 13
+  },
+  {
+    "name": "Clarinet",
+    "price": 936.76,
+    "stockQuantity": 3
+  },
+  {
+    "name": "Cosmetic Organizer",
+    "price": 83.11,
+    "stockQuantity": 10
+  },
+  {
+    "name": "Doll House",
+    "price": 21.33,
+    "stockQuantity": 18
+  },
+  {
+    "name": "Trumpet",
+    "price": 120.68,
+    "stockQuantity": 19
+  },
+  {
+    "name": "Playing Cards",
+    "price": 44.83,
+    "stockQuantity": 10
+  },
+  {
+    "name": "Binoculars",
+    "price": 303.48,
+    "stockQuantity": 13
+  },
+  {
+    "name": "Cookbook",
+    "price": 7.84,
+    "stockQuantity": 18
+  },
+  {
+    "name": "Kayak",
+    "price": 107.47,
+    "stockQuantity": 16
+  },
+  {
+    "name": "Toy Drone",
+    "price": 10.14,
+    "stockQuantity": 17
+  },
+  {
+    "name": "Sous Vide Cooker",
+    "price": 191.39,
+    "stockQuantity": 5
+  },
+  {
+    "name": "Chef's Knife",
+    "price": 25.89,
+    "stockQuantity": 20
+  },
+  {
+    "name": "Pet Feeding Mat",
+    "price": 8.43,
+    "stockQuantity": 15
+  },
+  {
+    "name": "Windshield Sun Shade",
+    "price": 189.34,
+    "stockQuantity": 2
+  },
+  {
+    "name": "Portable Grill",
+    "price": 249.42,
+    "stockQuantity": 9
+  },
+  {
+    "name": "Kite",
+    "price": 60.18,
+    "stockQuantity": 3
+  },
+  {
+    "name": "Desk Mat",
+    "price": 192.28,
+    "stockQuantity": 1
+  },
+  {
+    "name": "Car Vacuum",
+    "price": 166.89,
+    "stockQuantity": 2
+  },
+  {
+    "name": "Kids Art Set",
+    "price": 8.76,
+    "stockQuantity": 14
+  },
+  {
+    "name": "Wi-Fi Router",
+    "price": 265.21,
+    "stockQuantity": 5
+  },
+  {
+    "name": "Puzzle Book",
+    "price": 21.73,
+    "stockQuantity": 13
+  },
+  {
+    "name": "Trekking Poles",
+    "price": 316.4,
+    "stockQuantity": 7
+  },
+  {
+    "name": "Steering Wheel Cover",
+    "price": 70.71,
+    "stockQuantity": 11
+  },
+  {
+    "name": "Bakeware Set",
+    "price": 249.36,
+    "stockQuantity": 1
+  },
+  {
+    "name": "Fishing Rod",
+    "price": 193.22,
+    "stockQuantity": 14
+  },
+  {
+    "name": "Mystery Novel",
+    "price": 35.37,
+    "stockQuantity": 3
+  },
+  {
+    "name": "Acoustic Guitar",
+    "price": 184.8,
+    "stockQuantity": 19
+  },
+  {
+    "name": "Harmonica",
+    "price": 480.95,
+    "stockQuantity": 8
+  },
+  {
+    "name": "Massage Gun",
+    "price": 26.81,
+    "stockQuantity": 16
+  },
+  {
+    "name": "Laminator",
+    "price": 298.58,
+    "stockQuantity": 4
+  },
+  {
+    "name": "Drone",
+    "price": 241.87,
+    "stockQuantity": 3
+  },
+  {
+    "name": "Toy Robot",
+    "price": 9.39,
+    "stockQuantity": 20
+  },
+  {
+    "name": "Stapler",
+    "price": 197.76,
+    "stockQuantity": 1
+  },
+  {
+    "name": "Nail Care Kit",
+    "price": 84.34,
+    "stockQuantity": 10
+  },
+  {
+    "name": "Dog Leash",
+    "price": 132.81,
+    "stockQuantity": 1
+  },
+  {
+    "name": "Tow Rope",
+    "price": 34.92,
+    "stockQuantity": 20
+  },
+  {
+    "name": "VR Headset",
+    "price": 326.63,
+    "stockQuantity": 4
+  },
+  {
+    "name": "Dog Bowl Set",
+    "price": 131.46,
+    "stockQuantity": 1
+  },
+  {
+    "name": "Dinnerware Set",
+    "price": 150.05,
+    "stockQuantity": 13
+  },
+  {
+    "name": "Golf Club Set",
+    "price": 89.16,
+    "stockQuantity": 20
+  },
+  {
+    "name": "Roadside Emergency Kit",
+    "price": 12.99,
+    "stockQuantity": 17
+  },
+  {
+    "name": "Fountain Pen",
+    "price": 106.72,
+    "stockQuantity": 8
+  },
+  {
+    "name": "Desk Lamp",
+    "price": 135.93,
+    "stockQuantity": 9
+  },
+  {
+    "name": "Saxophone",
+    "price": 263.05,
+    "stockQuantity": 18
+  },
+  {
+    "name": "Facial Steamer",
+    "price": 79.84,
+    "stockQuantity": 8
+  },
+  {
+    "name": "Battery Charger",
+    "price": 114.82,
+    "stockQuantity": 11
+  },
+  {
+    "name": "Curling Iron",
+    "price": 42.69,
+    "stockQuantity": 19
+  },
+  {
+    "name": "Electric Toothbrush",
+    "price": 72.93,
+    "stockQuantity": 7
+  },
+  {
+    "name": "Cutting Board",
+    "price": 229.15,
+    "stockQuantity": 3
+  },
+  {
+    "name": "USB-C Hub",
+    "price": 120.89,
+    "stockQuantity": 7
+  },
+  {
+    "name": "Pet Stroller",
+    "price": 120.33,
+    "stockQuantity": 6
+  },
+  {
+    "name": "Hardcover Novel",
+    "price": 19.98,
+    "stockQuantity": 12
+  },
+  {
+    "name": "Skateboard",
+    "price": 477.21,
+    "stockQuantity": 5
+  },
+  {
+    "name": "Remote Control Car",
+    "price": 57.24,
+    "stockQuantity": 3
+  },
+  {
+    "name": "Model Train Set",
+    "price": 19.24,
+    "stockQuantity": 14
+  },
+  {
+    "name": "Dumbbell Set",
+    "price": 87.5,
+    "stockQuantity": 20
+  },
+  {
+    "name": "Dog Crate",
+    "price": 53.17,
+    "stockQuantity": 10
+  },
+  {
+    "name": "HDMI Cable",
+    "price": 99.18,
+    "stockQuantity": 15
+  },
+  {
+    "name": "Ukulele",
+    "price": 1067.12,
+    "stockQuantity": 3
+  },
+  {
+    "name": "Floor Mat Set",
+    "price": 196.08,
+    "stockQuantity": 2
+  },
+  {
+    "name": "Espresso Machine",
+    "price": 222.32,
+    "stockQuantity": 3
+  },
+  {
+    "name": "Phone Mount",
+    "price": 54.72,
+    "stockQuantity": 6
+  },
+  {
+    "name": "Resistance Bands",
+    "price": 11.59,
+    "stockQuantity": 14
+  },
+  {
+    "name": "Electric Violin",
+    "price": 228.68,
+    "stockQuantity": 14
+  },
+  {
+    "name": "Calendar Planner",
+    "price": 73.61,
+    "stockQuantity": 16
+  },
+  {
+    "name": "Dominoes Set",
+    "price": 43.09,
+    "stockQuantity": 11
+  },
+  {
+    "name": "Basketball",
+    "price": 362.64,
+    "stockQuantity": 8
+  },
+  {
+    "name": "Bass Guitar",
+    "price": 131.41,
+    "stockQuantity": 19
+  },
+  {
+    "name": "Cast Iron Skillet",
+    "price": 44.29,
+    "stockQuantity": 19
+  },
+  {
+    "name": "Chess Set",
+    "price": 9.27,
+    "stockQuantity": 19
+  },
+  {
+    "name": "Cat Tree",
+    "price": 122.56,
+    "stockQuantity": 3
+  },
+  {
+    "name": "Rice Cooker",
+    "price": 188.8,
+    "stockQuantity": 1
+  },
+  {
+    "name": "Sunscreen Set",
+    "price": 122.61,
+    "stockQuantity": 2
+  },
+  {
+    "name": "Travel Guide",
+    "price": 28.22,
+    "stockQuantity": 1
+  },
+  {
+    "name": "Board Game Rulebook",
+    "price": 35.73,
+    "stockQuantity": 4
+  },
+  {
+    "name": "Label Maker",
+    "price": 66.74,
+    "stockQuantity": 14
+  },
+  {
+    "name": "Dash Cam",
+    "price": 182.18,
+    "stockQuantity": 2
+  },
+  {
+    "name": "Blender",
+    "price": 182.3,
+    "stockQuantity": 5
+  },
+  {
+    "name": "Tennis Racket",
+    "price": 363.83,
+    "stockQuantity": 2
+  },
+  {
+    "name": "Training Clicker",
+    "price": 123.41,
+    "stockQuantity": 2
+  },
+  {
+    "name": "Dog Raincoat",
+    "price": 38.0,
+    "stockQuantity": 20
+  },
+  {
+    "name": "Electric Shaver",
+    "price": 9.32,
+    "stockQuantity": 19
+  },
+  {
+    "name": "Air Freshener Set",
+    "price": 31.38,
+    "stockQuantity": 16
+  },
+  {
+    "name": "Snowboard",
+    "price": 461.99,
+    "stockQuantity": 3
+  },
+  {
+    "name": "Manicure Set",
+    "price": 48.47,
+    "stockQuantity": 14
+  },
+  {
+    "name": "Air Fryer",
+    "price": 61.03,
+    "stockQuantity": 15
+  },
+  {
+    "name": "Whiteboard",
+    "price": 221.14,
+    "stockQuantity": 4
+  },
+  {
+    "name": "Self-Help Book",
+    "price": 12.51,
+    "stockQuantity": 8
+  },
+  {
+    "name": "Food Processor",
+    "price": 139.35,
+    "stockQuantity": 12
+  },
+  {
+    "name": "Bagpipes",
+    "price": 817.4,
+    "stockQuantity": 9
+  },
+  {
+    "name": "Beard Trimmer",
+    "price": 17.77,
+    "stockQuantity": 20
+  },
+  {
+    "name": "Mountain Bike",
+    "price": 422.42,
+    "stockQuantity": 5
+  },
+  {
+    "name": "Atlas",
+    "price": 9.33,
+    "stockQuantity": 14
+  },
+  {
+    "name": "Standing Desk",
+    "price": 69.85,
+    "stockQuantity": 18
+  },
+  {
+    "name": "Fantasy Novel",
+    "price": 9.72,
+    "stockQuantity": 20
+  },
+  {
+    "name": "Soccer Ball",
+    "price": 486.23,
+    "stockQuantity": 5
+  },
+  {
+    "name": "Science Experiment Kit",
+    "price": 40.76,
+    "stockQuantity": 7
+  },
+  {
+    "name": "Climbing Harness",
+    "price": 460.06,
+    "stockQuantity": 2
+  },
+  {
+    "name": "Flute",
+    "price": 807.07,
+    "stockQuantity": 10
+  },
+  {
+    "name": "Trunk Organizer",
+    "price": 77.63,
+    "stockQuantity": 9
+  },
+  {
+    "name": "Dog Chew Toy",
+    "price": 130.29,
+    "stockQuantity": 3
+  },
+  {
+    "name": "Hair Growth Serum",
+    "price": 147.71,
+    "stockQuantity": 4
+  },
+  {
+    "name": "Monitor Stand",
+    "price": 72.3,
+    "stockQuantity": 15
+  },
+  {
+    "name": "Roof Rack",
+    "price": 91.72,
+    "stockQuantity": 9
+  },
+  {
+    "name": "Noise-Cancelling Headphones",
+    "price": 298.54,
+    "stockQuantity": 1
+  },
+  {
+    "name": "History Book",
+    "price": 24.23,
+    "stockQuantity": 13
+  },
+  {
+    "name": "Desk Organizer",
+    "price": 165.47,
+    "stockQuantity": 4
+  },
+  {
+    "name": "Stand Mixer",
+    "price": 146.12,
+    "stockQuantity": 12
+  },
+  {
+    "name": "LED Headlight Kit",
+    "price": 113.19,
+    "stockQuantity": 7
+  },
+  {
+    "name": "Bike Rack",
+    "price": 142.9,
+    "stockQuantity": 5
+  },
+  {
+    "name": "Plush Toy",
+    "price": 63.75,
+    "stockQuantity": 4
+  },
+  {
+    "name": "Board Game",
+    "price": 54.64,
+    "stockQuantity": 2
+  },
+  {
+    "name": "Game Controller",
+    "price": 17.5,
+    "stockQuantity": 20
+  },
+  {
+    "name": "Cat Water Fountain",
+    "price": 129.5,
+    "stockQuantity": 5
+  },
+  {
+    "name": "Cat Scratching Post",
+    "price": 8.59,
+    "stockQuantity": 17
+  },
+  {
+    "name": "Laptop Stand",
+    "price": 209.56,
+    "stockQuantity": 12
+  },
+  {
+    "name": "Yoga Mat",
+    "price": 153.82,
+    "stockQuantity": 15
+  },
+  {
+    "name": "Coffee Maker",
+    "price": 129.82,
+    "stockQuantity": 7
+  },
+  {
+    "name": "Body Lotion Set",
+    "price": 57.56,
+    "stockQuantity": 10
+  },
+  {
+    "name": "Document Scanner",
+    "price": 272.38,
+    "stockQuantity": 3
+  },
+  {
+    "name": "Synthesizer Keyboard",
+    "price": 565.96,
+    "stockQuantity": 13
+  },
+  {
+    "name": "Puzzle Cube",
+    "price": 41.5,
+    "stockQuantity": 12
+  },
+  {
+    "name": "Skincare Set",
+    "price": 96.2,
+    "stockQuantity": 3
+  },
+  {
+    "name": "Cat Litter Box",
+    "price": 139.97,
+    "stockQuantity": 5
+  },
+  {
+    "name": "Cable Management Kit",
+    "price": 28.73,
+    "stockQuantity": 20
+  },
+  {
+    "name": "Hamster Cage",
+    "price": 49.25,
+    "stockQuantity": 20
+  },
+  {
+    "name": "Paper Shredder",
+    "price": 99.02,
+    "stockQuantity": 9
+  },
+  {
+    "name": "Graphic Novel",
+    "price": 27.97,
+    "stockQuantity": 9
+  }
+]
