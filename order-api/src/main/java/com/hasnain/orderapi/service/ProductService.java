@@ -46,6 +46,10 @@ public class ProductService {
         return toResponse(product);
     }
 
+    /**
+     * evicts every cached page, not just one, since adding a product shifts what belongs
+     * on every page
+     */
     @CacheEvict(value = "products", allEntries = true)
     public ProductResponse createProduct(CreateProductRequest request) {
         Product product = new Product();

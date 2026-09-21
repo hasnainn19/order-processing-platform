@@ -49,6 +49,10 @@ public class Order {
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderItem> orderItems = new ArrayList<>();
 
+    /**
+     * keeps both sides of the relationship in sync 
+     * order -> item and item -> order
+     */
     public void addItem(OrderItem item) {
         orderItems.add(item);
         item.setOrder(this);

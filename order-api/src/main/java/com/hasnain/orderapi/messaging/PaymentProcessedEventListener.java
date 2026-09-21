@@ -24,6 +24,8 @@ public class PaymentProcessedEventListener {
             .orElseThrow(() -> new ResourceNotFoundException("Order not found with id: " + event.orderId()));
 
         if (event.paymentSucceeded()) {
+            // goes through PAID before CONFIRMED to mirror two separate real world stages,
+            // payment captured then order confirmed
             order.setStatus(OrderStatus.PAID);
             orderRepository.save(order);
 

@@ -18,6 +18,11 @@ import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFacto
 import org.aopalliance.aop.Advice;
 import org.springframework.amqp.rabbit.config.RetryInterceptorBuilder;
 
+/**
+ * whoever consumes a queue owns declaring that queue and its dlq
+ * whoever just publishes to an exchange only declares the exchange itself, defensively
+ * that's why the declarations here aren't symmetric between order-api and payment-worker
+ */
 @Configuration
 public class RabbitMQConfig {
 
@@ -77,6 +82,10 @@ public class RabbitMQConfig {
         return new RepublishMessageRecoverer(rabbitTemplate, ORDER_CREATED_DLX, ORDER_CREATED_DLQ_ROUTING_KEY);
     }
 
+    /**
+     * applied automatically to any @RabbitListener that doesn't specify its own containerFactory
+     * that's how the listeners get retry and dlq behavior without anything visibly wiring them together
+     */
     @Bean
     SimpleRabbitListenerContainerFactory rabbitListenerContainerFactory(
         ConnectionFactory connectionFactory,

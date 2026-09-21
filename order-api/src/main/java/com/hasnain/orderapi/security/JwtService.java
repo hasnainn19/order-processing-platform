@@ -24,6 +24,8 @@ public class JwtService {
     }
 
     private SecretKey getSigningKey() {
+        // hmac signed, not encrypted, the payload is just base64 and anyone can read it,
+        // the signature only proves nobody tampered with it
         return Keys.hmacShaKeyFor(secret.getBytes());
     }
 

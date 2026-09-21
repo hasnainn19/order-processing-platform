@@ -142,6 +142,11 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<configuration>
 					<systemPropertyVariables>
+						<!--
+							set here instead of a src/test/resources/application.properties file, a same
+							named file there would silently shadow the whole main application.properties
+							on the test classpath instead of merging with it
+						-->
 						<spring.profiles.active>test</spring.profiles.active>
 					</systemPropertyVariables>
 				</configuration>

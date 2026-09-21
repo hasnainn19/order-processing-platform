@@ -34,7 +34,7 @@ import static org.mockito.Mockito.when;
 @Import(OrderCreatedMessagingIT.VerificationQueueConfig.class)
 class OrderCreatedMessagingIT {
 
-    // Declared by order-api, which owns this queue as its consumer; payment-worker only publishes to the exchange.
+    // declared by order-api, which owns this queue as its consumer, payment-worker only publishes to the exchange
     private static final String PAYMENT_PROCESSED_QUEUE = "payment-processed.queue";
 
     @Container
@@ -100,7 +100,9 @@ class OrderCreatedMessagingIT {
         });
     }
 
-    // Stands in for order-api, which normally declares and owns this queue as the flow's consumer.
+    /**
+     * stands in for order-api, which normally declares and owns this queue as the flow's consumer
+     */
     @TestConfiguration
     static class VerificationQueueConfig {
 

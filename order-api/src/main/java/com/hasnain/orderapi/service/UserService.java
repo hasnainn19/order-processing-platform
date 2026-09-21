@@ -26,6 +26,7 @@ public class UserService {
         User user = userRepository.findById(id)
             .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + id));
 
+        // can only check ownership once we know who owns it
         if (!isAdmin && !user.getEmail().equals(callerEmail)) {
             throw new AccessDeniedException("You do not have permission to perform this action");
         }

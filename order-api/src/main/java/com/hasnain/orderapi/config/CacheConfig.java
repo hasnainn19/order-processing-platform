@@ -17,6 +17,10 @@ import java.time.Duration;
 @Configuration
 public class CacheConfig {
 
+    /**
+     * PagedResponse is generic, so jackson needs the fully parameterized type below
+     * to deserialize it back properly instead of collapsing everything into raw maps
+     */
     @Bean
     RedisCacheManager cacheManager(RedisConnectionFactory connectionFactory, ObjectMapper objectMapper) {
         JavaType productsPageType = objectMapper.getTypeFactory()

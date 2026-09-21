@@ -30,6 +30,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     ) throws ServletException, IOException {
         
         String authHeader = request.getHeader("Authorization");
+        // invalid or missing tokens just fall through unauthenticated here
+        // SecurityConfig's anyRequest().authenticated() rule is what actually rejects them later
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             String token = authHeader.substring(7);
 
@@ -38,6 +40,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 String role = jwtService.extractRole(token);
 
                 var authorities = List.of(new SimpleGrantedAuthority("ROLE_" + role));
+                // principal is just the email string here, not a UserDetails, controllers read it
+                // straight back out via authentication.getName()
                 var authToken = new UsernamePasswordAuthenticationToken(email, null, authorities);
 
                 SecurityContextHolder.getContext().setAuthentication(authToken);

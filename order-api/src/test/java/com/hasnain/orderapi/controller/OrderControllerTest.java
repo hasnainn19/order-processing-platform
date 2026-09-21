@@ -48,6 +48,10 @@ class OrderControllerTest extends ControllerTestSupport {
                 new BigDecimal("89.99"), LocalDateTime.now(), List.of());
     }
 
+    /**
+     * @AutoConfigureMockMvc(addFilters = false) means the real JwtAuthenticationFilter never
+     * runs here, these fill in what it would have built from a real token
+     */
     private Authentication authenticatedAsJohn() {
         return new UsernamePasswordAuthenticationToken("john@example.com", null, List.of());
     }

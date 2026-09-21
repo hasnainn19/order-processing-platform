@@ -23,6 +23,11 @@ import java.util.List;
 import java.util.Random;
 
 @Component
+/**
+ * kept out of the test suite this way, the actual test profile activation
+ * happens via surefire/failsafe systemPropertyVariables in pom.xml, not a properties
+ * file, see pom.xml for why
+ */
 @Profile("!test")
 public class DataSeeder implements CommandLineRunner {
 
@@ -52,6 +57,8 @@ public class DataSeeder implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws IOException {
+        // bail out if this already ran, otherwise restarting the app would duplicate
+        // everything and blow up on the unique email constraint
         if (productRepository.count() > 0) {
             return;
         }
@@ -89,6 +96,7 @@ public class DataSeeder implements CommandLineRunner {
     }
 
     private void seedOrders(List<User> users, List<Product> products) {
+        // fixed seed so the demo data is reproducible across restarts, not a leftover debug value
         Random random = new Random(42);
 
         for (int i = 0; i < CONFIRMED_ORDERS_TO_SEED; i++) {
@@ -99,6 +107,10 @@ public class DataSeeder implements CommandLineRunner {
         }
     }
 
+    /**
+     * orders are built directly with a final status instead of going through the real event
+     * flow, since the random simulated gateway can't be made to hit an exact 30/5 split
+     */
     private Order buildOrder(List<User> users, List<Product> products, Random random, OrderStatus status) {
         User user = users.get(random.nextInt(users.size()));
         Product product = products.get(random.nextInt(products.size()));

@@ -27,6 +27,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
 @Testcontainers
+/**
+ * keeps the real postgres container instead of @DataJpaTest's default embedded database swap,
+ * locking semantics like the pessimistic lock below don't reliably behave the same on h2
+ */
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Import(ProductRepositoryContainerIT.StockDecrementer.class)
 class ProductRepositoryContainerIT extends AbstractPostgresContainerTest {
@@ -55,6 +59,11 @@ class ProductRepositoryContainerIT extends AbstractPostgresContainerTest {
     }
 
     @Test
+    /**
+     * opted out of the transaction @DataJpaTest normally wraps every test in, the two threads
+     * below need genuinely separate transactions racing each other, a single wrapping transaction
+     * would defeat the pessimistic lock this test is trying to prove
+     */
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
     void findByIdForUpdate_underConcurrentAccess_allowsOnlyOneDecrementToSucceed() throws Exception {
         Product product = new Product();
@@ -97,6 +106,10 @@ class ProductRepositoryContainerIT extends AbstractPostgresContainerTest {
         assertThat(finalProduct.getStockQuantity()).isEqualTo(0);
     }
 
+    /**
+     * a separate component so decrementStock runs through a real spring proxy, each thread above
+     * needs its own genuine transaction, which a plain method call from the test itself wouldn't get
+     */
     @Component
     static class StockDecrementer {
 

@@ -35,6 +35,10 @@ class JwtAuthenticationFilterTest {
     @InjectMocks
     private JwtAuthenticationFilter filter;
 
+    /**
+     * SecurityContextHolder is thread local static state, without clearing it one test's
+     * authentication could leak into the next
+     */
     @AfterEach
     void clearSecurityContext() {
         SecurityContextHolder.clearContext();

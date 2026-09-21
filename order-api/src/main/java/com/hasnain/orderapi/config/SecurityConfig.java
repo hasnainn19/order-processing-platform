@@ -39,6 +39,7 @@ public class SecurityConfig {
             .exceptionHandling(
                 ex -> ex.authenticationEntryPoint(jwtAuthenticationEntryPoint)
             )
+            // this only handles coarse, role based gating
             .authorizeHttpRequests(
                 auth -> auth
                     .requestMatchers("/error").permitAll()

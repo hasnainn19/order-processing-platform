@@ -4,10 +4,9 @@ import com.hasnain.orderapi.security.JwtService;
 import org.springframework.cache.CacheManager;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
-/** 
- * Mocks required to bootstrap any @WebMvcTest context here: 
- * 
- * JwtAuthenticationFilter is a scanned Filter bean needing JwtService, and @EnableCaching needs some CacheManager to exist.
+/**
+ * mocks required to bootstrap any @WebMvcTest context here, JwtAuthenticationFilter is a scanned
+ * filter bean needing JwtService, and @EnableCaching needs some CacheManager to exist
  */
 abstract class ControllerTestSupport {
 

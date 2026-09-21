@@ -81,6 +81,9 @@ public class OrderService {
         order.setTotal(total);
         Order saved = orderRepository.save(order);
 
+        // this publish isn't part of the db transaction above
+        // if the transaction rolls back after this line, the event has already gone out
+        // a production system would use the transactional outbox pattern to avoid that
         rabbitTemplate.convertAndSend(RabbitMQConfig.ORDER_CREATED_EXCHANGE, RabbitMQConfig.ORDER_CREATED_ROUTING_KEY, new OrderCreatedEvent(saved.getId()));
 
         return toResponse(saved);
@@ -91,6 +94,7 @@ public class OrderService {
         Order order = orderRepository.findById(id)
             .orElseThrow(() -> new ResourceNotFoundException("Order not found with id: " + id));
 
+        // can only check ownership once we know who owns it
         if (!isAdmin && !order.getUser().getEmail().equals(callerEmail)) {
             throw new AccessDeniedException("You do not have permission to perform this action");
         }

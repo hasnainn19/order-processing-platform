@@ -43,6 +43,8 @@ class PaymentProcessedMessagingIT extends AbstractPostgresContainerTest {
 
     private Order existingOrder() {
         User user = new User();
+        // random suffix on purpose, @SpringBootTest doesn't auto-rollback between methods like
+        // @DataJpaTest does, so a hardcoded email here previously collided with the unique constraint
         user.setEmail("john-" + UUID.randomUUID() + "@example.com");
         user.setPasswordHash("hashed-value");
         user.setRole(Role.USER);

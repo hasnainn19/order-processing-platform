@@ -7,6 +7,10 @@ public final class SecurityUtils {
     
     private SecurityUtils() {}
 
+    /**
+     * centralizes the admin check so ROLE_ADMIN isn't duplicated and checked slightly
+     * differently across controllers
+     */
     public static boolean isAdmin(Authentication authentication) {
         for (GrantedAuthority authority : authentication.getAuthorities()) {
             if (authority.getAuthority().equals("ROLE_ADMIN")) {
