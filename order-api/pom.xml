@@ -143,11 +143,15 @@
 				<configuration>
 					<systemPropertyVariables>
 						<!--
-							set here instead of a src/test/resources/application.properties file, a same
-							named file there would silently shadow the whole main application.properties
+							set here instead of a src/test/resources/application.properties file, otherwise 
+							it would silently shadow the whole main application.properties
 							on the test classpath instead of merging with it
 						-->
 						<spring.profiles.active>test</spring.profiles.active>
+						<!--
+							placeholder for tests that need some valid secret to sign/verify with
+						-->
+						<jwt.secret>test-only-secret-not-used-anywhere-real-1234567890</jwt.secret>
 					</systemPropertyVariables>
 				</configuration>
 			</plugin>
@@ -157,6 +161,10 @@
 				<configuration>
 					<systemPropertyVariables>
 						<spring.profiles.active>test</spring.profiles.active>
+						<!--
+							placeholder for tests that need some valid secret to sign/verify with
+						-->
+						<jwt.secret>test-only-secret-not-used-anywhere-real-1234567890</jwt.secret>
 					</systemPropertyVariables>
 				</configuration>
 				<executions>
