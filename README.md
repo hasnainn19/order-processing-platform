@@ -80,7 +80,7 @@ The database is auto-seeded on first boot with 1 admin, 10 users, 200 products, 
 |---|---|
 | API | [http://localhost:8080](http://localhost:8080) |
 | Interactive docs | [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html) |
-| RabbitMQ management UI | [http://localhost:15672](http://localhost:15672) (login: values of `RABBITMQ_USER` / `RABBITMQ_PASSWORD` in `.env`) |
+| RabbitMQ management UI | [http://localhost:15672](http://localhost:15672)<br>(login: values of `RABBITMQ_USER` / `RABBITMQ_PASSWORD` in `.env`) |
 
 **Seeded login**: every seeded account shares the same password:
 
